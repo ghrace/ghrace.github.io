@@ -5,6 +5,9 @@ module.exports = {
     evergreen:true,
     ga:'UA-123065311-1',
     dest:'dist',
+    markdown: {
+      lineNumbers: true
+    },
     themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
