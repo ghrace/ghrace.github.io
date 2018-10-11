@@ -1,7 +1,7 @@
 module.exports = {
     title:  "我的个人网站",
-    description: '学习记录',
-    head: [["link", { rel: "icon", href: `../img/favicon.ico` }]], 
+    description: '个人学习记录',
+    head: [["link", { rel: "icon", href: './favicon.ico' }]], 
     evergreen:true,
     ga:'UA-123065311-1',
     dest:'dist',
@@ -9,6 +9,8 @@ module.exports = {
       lineNumbers: true
     },
     themeConfig: {
+        editLinks: true,
+        editLinkText: '错别字纠正',
         nav: [
           { text: 'Home', link: '/' },
           { text: '关于', link: '/about' },
