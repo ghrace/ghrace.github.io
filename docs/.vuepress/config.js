@@ -1,10 +1,10 @@
 module.exports = {
     title:  "我的个人网站",
     description: '学习记录',
-    head: [["link", { rel: "icon", href: `../img/avt.jpg` }]], 
+    head: [["link", { rel: "icon", href: `../img/avt.png` }]], 
     evergreen:true,
     ga:'UA-123065311-1',
-    // dest:'dist',
+    dest:'dist',
     themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
