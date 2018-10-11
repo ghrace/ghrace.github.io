@@ -4,7 +4,7 @@ module.exports = {
     head: [["link", { rel: "icon", href: `../img/avt.jpg` }]], 
     evergreen:true,
     ga:'UA-123065311-1',
-    dest:'dist',
+    // dest:'dist',
     themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
