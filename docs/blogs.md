@@ -1,3 +1,1 @@
-## 旧风格
-
-[以前的jekyll](https://ghrace.github.io)
+记录学习过程,养成习惯

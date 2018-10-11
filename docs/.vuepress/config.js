@@ -3,7 +3,6 @@ module.exports = {
     description: '学习记录',
     head: [["link", { rel: "icon", href: `../img/avt.jpg` }]], 
     evergreen:true,
-    base:'/new/',
     themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
