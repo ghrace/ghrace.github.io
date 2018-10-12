@@ -61,6 +61,7 @@ module.exports = {
               '../posts/2018-10-08-vue-code4.md',
               '../posts/2018-10-09-vue-code5.md',
               '../posts/2018-10-11-vue-code6.md',
+              '../posts/2018-10-12-vue-code7.md'
              ]
           },
           {
