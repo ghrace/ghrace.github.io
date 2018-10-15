@@ -1,7 +1,6 @@
 <template>
     <div class="home">
-        <h2>This is home page</h2>
-        <p>to record my front-end learning procedures</p>
+        <h2>关于这个网站</h2>
     </div>
 </template>
 <script>

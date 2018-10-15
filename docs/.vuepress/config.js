@@ -1,5 +1,5 @@
 module.exports = {
-    title:  "我的个人网站",
+    title:  "个人网站",
     description: '个人学习记录',
     head: [["link", { rel: "icon", href: '/favicon.ico' }]], 
     evergreen:true,
