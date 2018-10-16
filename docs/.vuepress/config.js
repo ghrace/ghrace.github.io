@@ -5,9 +5,9 @@ module.exports = {
     evergreen:true,
     ga:'UA-123065311-1',
     dest:'dist',
-    markdown: {
-      lineNumbers: true
-    },
+    // markdown: {
+    //   lineNumbers: true
+    // },
     themeConfig: {
         editLinks: true,
         editLinkText: '错别字纠正',
@@ -18,7 +18,7 @@ module.exports = {
         ],
         sidebar: [
           {
-            title: 'js',
+            title: 'JS',
             // collapsable: false,
             children: [
               '../posts/2018-08-08-js-issue.md',
@@ -28,7 +28,7 @@ module.exports = {
             ]
           },
           {
-            title: 'es6',
+            title: 'ES6',
             children: [ 
               '../posts/2018-08-07-es6-note1.md',
               '../posts/2018-08-12-es6-note2.md',
@@ -42,7 +42,7 @@ module.exports = {
              ]
           },
           {
-            title: 'typescript',
+            title: 'TypeScrip',
             children: [ 
               '../posts/2018-09-03-typescript-note.md',
               '../posts/2018-09-04-typescript-advanced1.md',
@@ -50,7 +50,7 @@ module.exports = {
              ]
           },
           {
-            title: 'vue',
+            title: 'Vue',
             children: [ 
               '../posts/2018-08-13-vue-cli.md',
               '../posts/2018-08-09-vue-iview.md',
@@ -61,11 +61,12 @@ module.exports = {
               '../posts/2018-10-08-vue-code4.md',
               '../posts/2018-10-09-vue-code5.md',
               '../posts/2018-10-11-vue-code6.md',
-              '../posts/2018-10-12-vue-code7.md'
+              '../posts/2018-10-12-vue-code7.md',
+              '../posts/2018-10-16-vue-code8.md'
              ]
           },
           {
-            title: 'python',
+            title: 'Python',
             // collapsable: false,
             children: [
               '../posts/2018-07-31-xinhua-dictionary.md',
@@ -73,7 +74,7 @@ module.exports = {
             ]
           },
           {
-            title: 'other',
+            title: 'Others',
             // collapsable: false,
             children: [
               '../posts/2018-08-21-resume-template.md',
