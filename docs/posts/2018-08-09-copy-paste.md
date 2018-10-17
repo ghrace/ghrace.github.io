@@ -1,6 +1,6 @@
 在segmentfault看了一个文章,讲js复制粘贴,或许将来会用到,学习一下  [原文](https://segmentfault.com/a/1190000015942599)
 
-### 复制、剪切、粘贴事件
+## 复制、剪切、粘贴事件
 1. copy 复制
 2. cut 剪切
 3. paste 粘贴
@@ -12,11 +12,11 @@ document.body.oncopy = e => {
         console.log(e)
     }
 ```
-### clipboardData对象:访问修改剪切板数据
+## clipboardData对象:访问修改剪切板数据
 
 兼容 ie 是window对象,其他 event对象
 
-#### 方法
+### 方法
 getData(): 'text'参数,表示获取文本
 
 复制和剪切中的数据，通过`window.getSelection(0).toString()`
@@ -54,7 +54,7 @@ getData(): 'text'参数,表示获取文本
     }
 ```
 
-#### 禁止复制粘贴
+### 禁止复制粘贴
  ```js
      // 禁止右键菜单
     document.body.oncontextmenu = e => {
