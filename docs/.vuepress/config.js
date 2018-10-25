@@ -42,7 +42,7 @@ module.exports = {
              ]
           },
           {
-            title: 'TypeScrip',
+            title: 'TypeScript',
             children: [ 
               '../posts/2018-09-03-typescript-note.md',
               '../posts/2018-09-04-typescript-advanced1.md',

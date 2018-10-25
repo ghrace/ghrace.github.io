@@ -144,6 +144,66 @@ parseInt(str, 10);
 let num=2.3
 !!num  //true
 ```
+## 拷贝
+### 浅拷贝 
+- `Object.assign` 
+- (...)扩展运算符
+### 深拷贝
+通常可以通过 `JSON.parse(JSON.stringify(object))`解决  
+有局限性:
+- 忽略`undefined`
+- 不能序列化函数
+- 不能解决循环引用的对象
+
+拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
+```js
+function structuralClone(obj) {
+  return new Promise(resolve => {
+    const {port1, port2} = new MessageChannel();
+    port2.onmessage = ev => resolve(ev.data);
+    port1.postMessage(obj);
+  });
+}
+
+let obj = {a: 1, b: {
+    c: undefined
+}}
+// 注意该方法是异步的
+// 可以处理 undefined 和循环引用对象
+const clone = await structuralClone(obj);
+```
+## 如何渲染几万数据不卡住界面
+不能一次性将几万条都渲染出来，而应该一次渲染部分 DOM，那么就可以通过 requestAnimationFrame 来每 16 ms 刷新一次
+```js
+setTimeout(() => {
+      // 插入十万条数据
+      const total = 100000
+      // 一次插入 20 条，如果觉得性能不好就减少
+      const once = 20
+      // 渲染数据总共需要几次
+      const loopCount = total / once
+      let countOfRender = 0
+      let ul = document.querySelector("ul");
+      function add() {
+        // 优化性能，插入不会造成回流
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < once; i++) {
+          const li = document.createElement("li");
+          li.innerText = Math.floor(Math.random() * total);
+          fragment.appendChild(li);
+        }
+        ul.appendChild(fragment);
+        countOfRender += 1;
+        loop();
+      }
+      function loop() {
+        if (countOfRender < loopCount) {
+          window.requestAnimationFrame(add);
+        }
+      }
+      loop();
+    }, 0);
+```
 
 ## 优化
 ![优化](../img/better.jpg 'better')
