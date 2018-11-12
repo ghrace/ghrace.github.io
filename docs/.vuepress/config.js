@@ -79,6 +79,7 @@ module.exports = {
             // collapsable: false,
             children: [
               '../posts/2018-08-21-resume-template.md',
+              '../posts/2018-11-9-git.md'
             ]
           },
         ]
