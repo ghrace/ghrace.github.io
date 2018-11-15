@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .div {
+        width: 200px;
+        border: 1px solid #f00;
+    }
+
+    main {
+        width: 100%;
+        padding: 80px 0px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .progress-outer {
+        width: 60%;
+        height: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-enter {
+        height: inherit;
+        background: rgba(180, 160, 120, .2);
+    }
+
+    .progress-bg {
+        width: 60%;
+        height: inherit;
+        border-radius: 6px;
+        background: repeating-linear-gradient(-45deg, #D9CFBB 25%, #C3B393 0, #C3B393 50%,
+            #D9CFBB 0, #D9CFBB 75%, #C3B393 0);
+        background-size: 16px 16px;
+        animation: panoramic 20s linear infinite;
+    }
+
+    @keyframes panoramic {
+        to {
+            background-position: 100% 0;
+        }
+    }
+
+    .coupon-card {
+        width: 200px;
+        height: 120px;
+        background-image: radial-gradient(circle at 100px -8px, transparent 20px, #b4a078 21px);
+    }
+
+    .bevel-corners {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .bevel-corners>div {
+        width: 249px;
+        color: #FFF;
+        padding: 1.2em 1.8em;
+        hyphens: auto;
+        text-align: justify;
+        background: #b4a078;
+    }
+
+    .bevel-corners div {
+        clip-path: polygon(0 0, 0 0, 100% 0, 100% 0, 100% 100%, 100% 100%, 0 100%, 0 100%);
+        transition: 1s clip-path;
+    }
+
+    .bevel-corners:hover div {
+        clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+    }
+</style>
+
+<body>
+    <div class="div" contenteditable="true">
+    </div>
+    <main>
+        <div class="coupon-card"></div>
+        <div class="progress-outer">
+            <!--更好的扩展-->
+            <div class="progress-enter">
+                <div class="progress-bg"></div>
+            </div>
+            <!-- <span>60%</span> -->
+        </div>
+        <div class="bevel-corners">
+            <p>④ clip-path</p>
+            <div>A paragraph of filler text.La la la de dah de dah de dah de la.La la la de dah de dah de dah de la.La
+                la la de dah de dah de dah de la.</div>
+        </div>
+    </main>
+    <script>
+        const div = document.querySelector('.div')
+        div.addEventListener('change', () => {
+            const content = div.innerText;
+            console.log(content);
+        })
+    </script>
+</body>
+
+</html>
