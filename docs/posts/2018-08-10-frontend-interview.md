@@ -172,6 +172,40 @@ let obj = {a: 1, b: {
 // 可以处理 undefined 和循环引用对象
 const clone = await structuralClone(obj);
 ```
+递归实现
+```js
+    //定义检测数据类型的功能函数
+    function checkedType(target) {
+      return Object.prototype.toString.call(target).slice(8, -1)
+    }
+    //实现深度克隆---对象/数组
+    function clone(target) {
+      //判断拷贝的数据类型
+      //初始化变量result 成为最终克隆的数据
+      let result, targetType = checkedType(target)
+      if (targetType === 'object') {
+        result = {}
+      } else if (targetType === 'Array') {
+        result = []
+      } else {
+        return target
+      }
+      //遍历目标数据
+      for (let i in target) {
+        //获取遍历数据结构的每一项值。
+        let value = target[i]
+        //判断目标结构里的每一值是否存在对象/数组
+        if (checkedType(value) === 'Object' ||
+          checkedType(value) === 'Array') { //对象/数组里嵌套了对象/数组
+          //继续遍历获取到value值
+          result[i] = clone(value)
+        } else { //获取到value值是基本的数据类型或者是函数。
+          result[i] = value;
+        }
+      }
+      return result
+    }
+```
 ## 如何渲染几万数据不卡住界面
 不能一次性将几万条都渲染出来，而应该一次渲染部分 DOM，那么就可以通过 requestAnimationFrame 来每 16 ms 刷新一次
 ```js
