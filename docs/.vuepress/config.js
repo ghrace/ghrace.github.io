@@ -1,6 +1,6 @@
 module.exports = {
     title:  "个人网站",
-    description: '个人学习记录',
+    description: '郭洪荣的前端学习记录 不仅仅是前端',
     head: [["link", { rel: "icon", href: '/favicon.ico' }]], 
     evergreen:true,
     ga:'UA-123065311-1',
