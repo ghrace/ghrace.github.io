@@ -1,4 +1,5 @@
-面试一些常见问题
+# 面试问题
+
 ## css
 
 1. **1px问题(0.5px的线)**  
@@ -147,14 +148,53 @@ let num=2.3
 ## 拷贝
 ### 浅拷贝 
 - `Object.assign` 
+- `slice(),concat()`
 - (...)扩展运算符
+```js
+//浏览器验证是浅拷贝,只有一层可以
+let arr=[1,2,'a']
+let [...arrCopy]=arr 
+let obj={
+    func: function () {
+        alert(1) 
+    },
+    obj : {a:1},
+    arr : [1,2,3],
+    und : undefined,
+    reg : /123/g,
+    date : new Date(0),
+    NaN : NaN,
+    infinity : Infinity,
+    sym : Symbol('sym')
+}
+let {...cloneObj}=obj
+```
 ### 深拷贝
 通常可以通过 `JSON.parse(JSON.stringify(object))`解决  
 有局限性:
-- 忽略`undefined`
-- 不能序列化函数
-- 不能解决循环引用的对象
-
+- 拷贝的对象的值中如果有函数,`undefined`,`symbol` 则经过`JSON.stringify()`序列化后的JSON字符串中这个键值对会消失
+- 对象中含有 `NaN`、`Infinity`和`-Infinity`，则序列化的结果会变成null
+- 不能解决循环引用的对象(`obj[key] = obj`)
+- 拷贝Date引用类型会变成字符串
+- 拷贝RegExp引用类型会变成空对象
+- 无法拷贝不可枚举的属性，无法拷贝对象的原型链
+```js
+function deepClone(obj) {
+    let cloneObj = {}; //在堆内存中新建一个对象
+    for(let key in obj){ //遍历参数的键
+       if(typeof obj[key] ==='object'){ 
+          cloneObj[key] = deepClone(obj[key]) //值是对象就再次调用函数
+       }else{
+           cloneObj[key] = obj[key] //基本类型直接复制值
+       }
+    }
+    return cloneObj 
+}
+// deepClone 函数问题
+// 不能复制不可枚举的属性以及Symbol类型
+// 这里只是针对Object引用类型的值做的循环迭代，而对于Array,Date,RegExp,Error,Function引用类型无法正确拷贝
+// 对象循环引用成环了的情况
+```
 拷贝的对象含有内置类型并且不包含函数，可以使用 `MessageChannel`
 ```js
 function structuralClone(obj) {
