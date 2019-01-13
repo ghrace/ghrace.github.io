@@ -1,8 +1,23 @@
 ## 性能优化总结
 
+浏览器打开网页的过程
+1. 浏览器对URL进行DNS解析
+2. 浏览器与服务器进行TCP连接
+3. 浏览器发出HTTP请求
+4. 服务器返回HTTP响应
+5. 浏览器进行页面渲染
+
 前端的资源加载优化两个方向:
 1. 开源 增加域名,cdn,可以第三方,可以二级域名
 2. 节流 资源压缩、按需加载,文件多了,就按需加载,延时加载
+
+## 提前解析DNS
+```html
+<!-- DNS prefetch技术 -->
+<link ref="dns-prefetch" href="">
+<meta http-equiv="x-dns-prefetch-control" content="on/off">
+
+```
 
 其中 图片处理
 - css实现(按钮,阴影)
