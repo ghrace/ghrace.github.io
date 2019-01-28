@@ -81,7 +81,6 @@ module.exports = {
               '../posts/2018-08-21-resume-template.md',
               '../posts/2018-11-9-git.md',
               '../posts/2018-11-27-brower-cashe.md',
-              '../posts/2018-12-25-year-summary.md'
             ]
           },
         ]
