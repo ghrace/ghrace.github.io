@@ -26,6 +26,7 @@ module.exports = {
               '../posts/2018-08-09-copy-paste.md',
               '../posts/2018-09-12-interview-question.md',
               '../posts/2019-03-04-js-repeat.md',
+              '../posts/2019-03-04-interviews.md',
               '../posts/2018-10-29-performance-optimization.md'
             ]
           },
