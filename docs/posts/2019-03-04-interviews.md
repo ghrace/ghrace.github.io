@@ -77,3 +77,64 @@ Reflect对象与Proxy对象一样,操作对象的新API,目的是:
 1. 将Object对象上方法放到Reflect上
 2. 修改Object方法的返回结果,使其更合理,
 3. 并让Object操作变为函数行为
+### 检测类型以及深拷贝
+```js
+function typeOf(obj) {
+  const toString = Object.prototype.toString;
+  const map = {
+    '[object Boolean]'  : 'boolean',
+    '[object Number]'   : 'number',
+    '[object String]'   : 'string',
+    '[object Function]' : 'function',
+    '[object Array]'    : 'array',
+    '[object Date]'     : 'date',
+    '[object RegExp]'   : 'regExp',
+    '[object Undefined]': 'undefined',
+    '[object Null]'     : 'null',
+    '[object Object]'   : 'object'
+  };
+  return map[toString.call(obj)];
+}
+function deepCopy(data) {
+  const t = typeOf(data);
+  let o;
+
+  if (t === 'array') {
+    o = [];
+  } else if ( t === 'object') {
+    o = {};
+  } else {
+    return data;
+  }
+
+  if (t === 'array') {
+    for (let i = 0; i < data.length; i++) {
+      o.push(deepCopy(data[i]));
+    }
+  } else if ( t === 'object') {
+    for (let i in data) {
+      o[i] = deepCopy(data[i]);
+    }
+  }
+  return o;
+}
+```
+### 实现求和科里化
+```js
+function sum() {
+  let args = Array.prototype.slice.call(arguments);
+  function adder() {
+    let newArgs = Array.prototype.slice.call(arguments);
+    args = args.concat(newArgs);
+    return adder;   //每次调用后返回自身函数对象，连续调用
+  }
+  adder.valueOf = function () {
+    return args.reduce(function (pre, current) {
+      return pre + current;
+    });
+  }
+  return adder;
+}
+let result = sum(1)(2, 3)(4, 5).valueOf()
+console.log(result)
+```
