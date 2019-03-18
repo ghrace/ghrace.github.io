@@ -23,6 +23,7 @@ Array.prototype.shuffle = function() {
     let input = this;
     for (let i = input.length-1; i >=0; i--) {
         let randomIndex = Math.floor(Math.random()*(i+1));
+        // [input[random], input[i]] = [input[i], input[random]];
         let itemAtIndex = input[randomIndex];
         input[randomIndex] = input[i];//swap
         input[i] = itemAtIndex;
