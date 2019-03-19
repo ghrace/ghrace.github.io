@@ -23,6 +23,7 @@ Array.prototype.shuffle = function() {
     let input = this;
     for (let i = input.length-1; i >=0; i--) {
         let randomIndex = Math.floor(Math.random()*(i+1));
+        // [input[random], input[i]] = [input[i], input[random]];
         let itemAtIndex = input[randomIndex];
         input[randomIndex] = input[i];//swap
         input[i] = itemAtIndex;
@@ -138,6 +139,7 @@ function sum() {
 let result = sum(1)(2, 3)(4, 5).valueOf()
 console.log(result)
 ```
+<<<<<<< HEAD
 1. 内存泄漏的有哪些  
 内存泄漏：指一块被分配的内存既不能使用，又不能回收，直到浏览器进程结束。  
 JavaScript垃圾回收的机制很简单：找出不再使用的变量，然后释放掉其占用的内存，但是这个过程不是实时的，因为其开销比较大，所以垃圾回收系统（GC）会按照固定的时间间隔,周期性的执行。  
@@ -182,3 +184,5 @@ setTimeout(() => {
     console.log(this.state.count); //这里读取的count就是2
   }, 0);
   ```
+=======
+>>>>>>> 9e57598a1d497f60dae2050db93c4c0ddcafadbe
