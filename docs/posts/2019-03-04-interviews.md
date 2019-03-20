@@ -139,7 +139,6 @@ function sum() {
 let result = sum(1)(2, 3)(4, 5).valueOf()
 console.log(result)
 ```
-<<<<<<< HEAD
 1. 内存泄漏的有哪些  
 内存泄漏：指一块被分配的内存既不能使用，又不能回收，直到浏览器进程结束。  
 JavaScript垃圾回收的机制很简单：找出不再使用的变量，然后释放掉其占用的内存，但是这个过程不是实时的，因为其开销比较大，所以垃圾回收系统（GC）会按照固定的时间间隔,周期性的执行。  
@@ -183,6 +182,11 @@ setTimeout(() => {
     this.setState({count: 2}); //这会立刻引发重新渲染
     console.log(this.state.count); //这里读取的count就是2
   }, 0);
-  ```
-=======
->>>>>>> 9e57598a1d497f60dae2050db93c4c0ddcafadbe
+```
+7. react hooks
+16.8中正式使用
+- useState：传入我们所需的初始状态，返回一个常量状态以及改变状态的函数
+- useEffect：第一个参数接受一个 callback，每次组件更新都会执行这个 callback，并且 callback 可以返回一个函数，该函数会在每次组件销毁前执行。如果 useEffect 内部有依赖外部的属性，并且希望依赖属性不改变就不重复执行 useEffect 的话，可以传入一个依赖数组作为第二个参数
+- useRef：如果你需要有一个地方来存储变化的数据
+- useCallback：如果你需要一个不会随着组件更新而重新创建的 callback
+
