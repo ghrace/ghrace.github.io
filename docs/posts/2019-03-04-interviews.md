@@ -189,4 +189,45 @@ setTimeout(() => {
 - useEffect：第一个参数接受一个 callback，每次组件更新都会执行这个 callback，并且 callback 可以返回一个函数，该函数会在每次组件销毁前执行。如果 useEffect 内部有依赖外部的属性，并且希望依赖属性不改变就不重复执行 useEffect 的话，可以传入一个依赖数组作为第二个参数
 - useRef：如果你需要有一个地方来存储变化的数据
 - useCallback：如果你需要一个不会随着组件更新而重新创建的 callback
-
+8. 发红包  
+还有点问题
+```js
+function redbag(count,p){
+    let left=count
+    let result=new Array(p)
+    let sum=0;
+    for(let i=0;i<p-1;i++){
+        let random=+(Math.random()*left).toFixed(2)
+        // if(random<0.01){
+        //     random=0.01
+        // }
+        result[i]=random
+        sum+=random
+        left=left-result[i]
+    }
+    result[p-1]=+(count-sum).toFixed(2)
+    console.log(result);
+}
+redbag(10,5)
+```
+9. 返回字符串中连续出现的次数,如果只有一次跳过,如`aabcccaaaa`返回`a2bc3a4`
+```js
+//这是返回总次数,非连续的次数
+function test(s1){
+    let obj={}
+    let result=''
+    let str=s1.toLowerCase()
+    for(let item of str){
+        if(obj[item]){
+            obj[item]++
+        }else{
+            obj[item]=1
+        }
+    }
+    for(let key in obj){
+        result+=`${key}${obj[key]>1?obj[key]:''}`
+    }
+    console.log(result);
+}
+test('aabccccaaa')
+```
