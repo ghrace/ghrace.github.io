@@ -1,6 +1,6 @@
 ## 纯css实现面包式菜单
 
-在YouTube看到一个视频,介绍怎么用纯css实现面包式菜单,作者是`Traversy Media`,看了觉得很厉害,css也能做这么多事,[demo](/hamberger)
+在YouTube看到一个视频,介绍怎么用纯css实现面包式菜单,作者是`Traversy Media`,看了觉得很厉害,css也能做这么多事,[demo](/hamburger)
 
 >we will create a landing page with a pure CSS responsive hamburger menu (No JavaScript) with a bit of animation using CSS transitions  
 
