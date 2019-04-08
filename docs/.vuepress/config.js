@@ -77,6 +77,13 @@ module.exports = {
             ]
           },
           {
+            title: 'CSS',
+            // collapsable: false,
+            children: [
+              '../posts/2019-4-9-pure-css-hamburger-menu.md',
+            ]
+          },
+          {
             title: 'Others',
             // collapsable: false,
             children: [
