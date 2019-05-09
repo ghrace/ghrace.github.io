@@ -90,6 +90,7 @@ module.exports = {
               '../posts/2018-08-21-resume-template.md',
               '../posts/2018-11-9-git.md',
               '../posts/2018-11-27-brower-cashe.md',
+              '../posts/2019-5-9-data-constructor.md'
             ]
           },
         ]
