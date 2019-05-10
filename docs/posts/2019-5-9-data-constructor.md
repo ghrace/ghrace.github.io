@@ -78,6 +78,12 @@ class Queue{
 - print（） - 返回链表的可见表示
 1. 单链表
 ```js
+class Node {
+  constructor(data) {
+    this.data = data
+    this.next = null
+  }
+}
 class LinkedList {
   constructor() {
     this.head = null
@@ -190,6 +196,17 @@ class LinkedList {
 ```
 2. 双链表
 ```js
+class Node {
+    constructor(data) {
+        // data 包含链表项应存储的值
+        this.data = data;
+        // next 是指向列表中下一项的指针
+        this.next = null;
+        // prev 是指向列表中上一项的指针
+        this.prev = null;
+    }
+}
+
 class DoubleLink {
     constructor(data) {
         // data 包含链表项应存储的值
