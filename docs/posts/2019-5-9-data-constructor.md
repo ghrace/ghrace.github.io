@@ -361,3 +361,171 @@ class DoubleLink {
         return false;
     }
 }
+```
+## 树:Tree
+一种非线性的数据结构——树（Tree），由于其存储的所有元素之间具有明显的层次特性，因此常被用来存储具有层级关系的数据，比如文件系统中的文件；也会被用来存储有序列表等。
+- 在树结构中，每一个结点只有一个父结点，若一个结点无父节点，则称为树的根结点，简称树的根（root）。
+- 每一个结点可以有多个子结点。
+- 没有子结点的结点称为叶子结点。
+- 一个结点所拥有的子结点的个数称为该结点的度。
+- 所有结点中最大的度称为树的度。树的最大层次称为树的深度。
+
+分类:
+- 二叉树：Binary Search Tree
+- AVL树：AVL Tree
+- 红黑树：Red-Black Tree
+- 线段树： Segment Tree - with min/max/sum range queries examples
+- 芬威克树：Fenwick Tree (Binary Indexed Tree
+
+二叉树
+- 二叉树是一种特殊的树，它的子节点个数不超过两个。
+- 且分别称为该结点的左子树（left subtree）与右子树（right subtree）。
+- 二叉树常被用作二叉查找树和二叉搜索树、或是二叉排序树（BST）
+按照根节点访问的顺序不同，二叉树的遍历分为以下三种：前序遍历，中序遍历，后序遍历；
+### 前序遍历：Pre-Order
+>根节点->左子树->右子树
+### 中序遍历：In-Order
+>左子树->根节点->右子树
+### 后序遍历：Post-Order
+>左子树->右子树->根节点
+```js
+class Node { 
+  constructor(data) { 
+    this.left = null
+    this.right = null
+    this.value = value
+  } 
+} 
+
+class BST {
+    constructor() {
+        this.root = null
+    }
+    //新子节点
+    insertNode(root, newNode) {
+    if (newNode.value < root.value) {
+      // 先执行无左节点操作
+      (!root.left) ? root.left = newNode : this.insertNode(root.left, newNode)
+    } else {
+      (!root.right) ? root.right = newNode : this.insertNode(root.right, newNode)
+    }
+  }
+  //节点
+    insert(value) {
+        let newNode = new Node(value)
+        // 如果没有根节点
+        if (!this.root) {
+        this.root = newNode
+        } else {
+        this.insertNode(this.root, newNode)
+        }
+    }
+      removeNode(root, value) {
+        if (!root) {
+        return null
+        }
+        
+        // 从该值小于根节点开始判断
+        if (value < root.value) {
+            root.left = this.removeNode(root.left, value)
+            return root
+            } else if (value > root.value) {
+            root.right = tis.removeNode(root.right, value)
+            return root
+        } else {
+        // 如果没有左右节点
+        if (!root.left && !root.right) {
+            root = null
+            return root
+        }
+        
+        // 存在左节点
+        if (root.left) {
+            root = root.left
+            return root
+        // 存在右节点
+        } else if (root.right) {
+            root = root.right
+            return root
+        }
+        
+        // 获取正确子节点的最小值以确保我们有有效的替换
+        let minRight = this.findMinNode(root.right)
+        root.value = minRight.value
+        // 确保删除已替换的节点
+        root.right = this.removeNode(root.right, minRight.value)
+        return root
+        }
+    }
+  
+    remove(value) {
+        if (!this.root) {
+        return 'Tree is empty!'
+        } else {
+        this.removeNode(this.root, value)
+        }
+    }
+    //子节点的最小值
+    findMinNode(root) {
+        if (!root.left) {
+        return root
+        } else {
+        return this.findMinNode(root.left)
+        }
+    }
+    searchNode(root, value) {
+        if (!root) {
+        return null
+        }
+        
+        if (value < root.value) {
+        return this.searchNode(root.left, value)
+        } else if (value > root.value) {
+        return this.searchNode(root.right, value)
+        }
+        
+        return root
+    }
+
+    search(value) {
+        if (!this.root) {
+        return 'Tree is empty'
+        } else {
+        return Boolean(this.searchNode(this.root, value))
+        }
+    }
+    //前序遍历
+    preOrder(root) {
+        if (!root) {
+        return 'Tree is empty'
+        } else {
+        console.log(root.value)
+        this.preOrder(root.left)
+        this.preOrder(root.right)
+        }
+    }
+    inOrder(root) {
+        if (!root) {
+        return 'Tree is empty'
+        } else {
+        this.inOrder(root.left)
+        console.log(root.value)
+        this.inOrder(root.right)
+        }
+    }
+    postOrder(root) {
+        if (!root) {
+        return 'Tree is empty'
+        } else {
+        this.postOrder(root.left)
+        this.postOrder(root.right)
+        console.log(root.value)
+        }
+    }
+```
+
+
+
+
+
+}
