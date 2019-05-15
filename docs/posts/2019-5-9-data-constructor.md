@@ -694,3 +694,204 @@ createVisitedObject(){
   }
 }
 ```
+## 字典树:Trie
+是针对特定类型的搜索而优化的树数据结构。当你想要获取部分值并返回一组可能的完整值时，可以使用Trie。典型的例子是自动完成,搜索,分类
+Trie，是一种搜索树，也称字典树或单词查找树，此外也称前缀树，因为某节点的后代存在共同的前缀
+- key都为字符串，能做到高效查询和插入，时间复杂度为O(k)，k为字符串长度
+- 缺点是如果大量字符串没有共同前缀时很耗内存。
+- 它的核心思想就是减少没必要的字符比较，使查询高效率。
+- 用空间换时间，再利用共同前缀来提高查询效率
+```js
+class PrefixTreeNode {
+  constructor(value) {
+    this.children = {};
+    this.endWord = null;
+    this.value = value;
+  }
+}
+class PrefixTree extends PrefixTreeNode {
+  constructor() {
+    super(null);
+  }
+  // 基础操作方法
+  //创建节点
+  addWord(string) {
+    const addWordHelper = (node, str) => {
+        if (!node.children[str[0]]) {
+            node.children[str[0]] = new PrefixTreeNode(str[0]);
+            if (str.length === 1) {
+                node.children[str[0]].endWord = 1;
+            } else if (str.length > 1) {
+                addWordHelper(node.children[str[0]], str.slice(1));
+        }
+    };
+    addWordHelper(this, string);
+}
+//预测单词,给定一个字符串,返回树种以改字符串开头的所有单词
+  predictWord(string) {
+      let getRemainingTree = function(string, tree) {
+        let node = tree;
+        while (string) {
+          node = node.children[string[0]];
+          string = string.substr(1);
+        }
+        return node;
+      };
+
+      let allWords = [];
+      
+      let allWordsHelper = function(stringSoFar, tree) {
+        for (let k in tree.children) {
+          const child = tree.children[k]
+          let newString = stringSoFar + child.value;
+          if (child.endWord) {
+            allWords.push(newString);
+          }
+          allWordsHelper(newString, child);
+        }
+      };
+
+      let remainingTree = getRemainingTree(string, this);
+      if (remainingTree) {
+        allWordsHelper(string, remainingTree);
+      }
+
+      return allWords;
+    }
+  logAllWords() {
+    console.log('------ 所有在字典树中的节点 -----------')
+    console.log(this.predictWord(''));
+  }
+}
+```
+## 散列表(哈希表):Hash Tables
+哈希表可以进行非常快速的查找
+>散列（hashing）是电脑科学中一种对资料的处理方法，通过某种特定的函数/算法（称为散列函数/算法）将要检索的项与用来检索的索引（称为散列，或者散列值）关联起来，生成一种便于搜索的数据结构（称为散列表）。也译为散列。旧译哈希（误以为是人名而采用了音译）。
+>它也常用作一种资讯安全的实作方法，由一串资料中经过散列算法（Hashing algorithms）计算出来的资料指纹（data fingerprint），经常用来识别档案与资料是否有被窜改，以保证档案与资料确实是由原创者所提供。 —-Wikipedia
+Hash Tables优化了键值对的存储。在最佳情况下，哈希表的插入，检索和删除是恒定时间。哈希表用于存储大量快速访问的信息，如密码  
+哈希表可以概念化为一个数组，其中包含一系列存储在对象内部子数组中的元组
+1. 在散列中，通过使用散列函数将大键转换为小键。
+2. 然后将这些值存储在称为哈希表的数据结构中。
+3. 散列的想法是在数组中统一分配条目（键/值对）。为每个元素分配一个键（转换键）。
+4. 通过使用该键，您可以在O(1)时间内访问该元素。
+5. 使用密钥，算法（散列函数）计算一个索引，可以找到或插入条目的位置
+- 通过使用散列函数将元素转换为整数。此元素可用作存储原始元素的索引，该元素属于哈希表。
+- 该元素存储在哈希表中，可以使用散列键快速检索它。
+### 哈希函数
+- 哈希函数是可用于将任意大小的数据集映射到固定大小的数据集的任何函数，该数据集属于散列表
+- 哈希函数返回的值称为哈希值，哈希码，哈希值或简单哈希值。
+- 易于计算：它应该易于计算，并且不能成为算法本身。
+- 统一分布：它应该在哈希表中提供统一分布，不应导致群集。
+- 较少的冲突：当元素对映射到相同的哈希值时发生冲突。应该避免这些 
+### 实现
+合理的假设下，在哈希表中搜索元素所需的平均时间应是O（1）
+```js
+class Node {
+	constructor( data ){
+		this.data = data;
+		this.next = null;
+	}
+}
+
+class HashTableWithChaining {
+	constructor( size = 10 ) {
+		this.table = new Array( size );
+	}
+  //素数判断
+	isPrime( num ) {
+    for(let i = 2, s = Math.sqrt(num); i <= s; i++)
+          if(num % i === 0) return false; 
+      return num !== 1;
+  }
+  //哈希函数生成
+  computeHash( string ) {
+    let H = this.findPrime( this.table.length );
+    let total = 0;
+    for (let i = 0; i < string.length; ++i) {
+          total += H * total + string.charCodeAt(i);
+      }
+    return total % this.table.length;
+  }
+  // 取模
+  findPrime( num ) {
+    while(true) {
+      if( this.isPrime(num) ){ break; }
+      num += 1
+    }
+    return num;
+  }
+
+  put( item ) {
+    let key = this.computeHash( item );
+    let node = new Node(item)
+    if ( this.table[key] ) {
+      node.next = this.table[key]
+    }
+    this.table[key] = node
+  }
+
+remove( item ) {
+	let key = this.computeHash( item );
+	if( this.table[key] ) {
+		if( this.table[key].data === item ) {
+			this.table[key] = this.table[key].next
+		} else {
+			let current = this.table[key].next;
+			let prev = this.table[key];
+			while( current ) {
+				if( current.data === item ) {
+					prev.next = current.next
+				}
+				prev = current
+				current = current.next;
+			}
+		}
+	}
+}
+
+contains(item) {
+    for (let i = 0; i < this.table.length; i++) {
+        if (this.table[i]) {
+            let current = this.table[i];
+            while (current) {
+                if (current.data === item) {
+                    return true;
+                }
+                current = current.next;
+            }
+        }
+    }
+    return false;
+}
+
+size( item ) {
+  let counter = 0
+  for(let i=0; i<this.table.length; i++){
+    if( this.table[i] ) {
+      let current = this.table[i]
+      while( current ) {
+        counter++
+        current = current.next
+      }
+    }
+  }
+  return counter
+}
+
+isEmpty() {
+  return this.size() < 1
+}
+//遍历
+traverse( fn ) {
+  for(let i=0; i<this.table.length; i++){
+    if( this.table[i] ) {
+      let current = this.table[i];
+      while( current ) {
+        fn( current );
+        current = current.next;
+      }
+    }
+  }
+}
+}
+```
