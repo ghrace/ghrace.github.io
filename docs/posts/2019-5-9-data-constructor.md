@@ -523,9 +523,174 @@ class BST {
         }
     }
 ```
-
-
-
-
-
+## 图:Graph
+图是由具有边的节点集合组成的数据结构。图可以是定向的或不定向的  
+- GPS系统和谷歌地图使用图表来查找从一个目的地到另一个目的地的最短路径。
+- 社交网络使用图表来表示用户之间的连接。
+- Google搜索算法使用图 来确定搜索结果的相关性。
+- 运营研究是一个使用图 来寻找降低运输和交付货物和服务成本的最佳途径的领域。
+- 化学使用图 来表示分子！
+1. 图的基本元素
+   - 节点:Node
+   - 边:Edge
+2. 符号
+   - `|V|` 图中顶点(节点)总数
+   - `|E|` 图中的连接总数(边)
+3. 有向图和无向图
+- 有向图中，边具有方向。它们从一个节点转到另一个节点，并且无法通过该边返回到初始节点,将这些边视为单行道
+- 无向图中,边是无向的（它们没有特定的方向）。将无向边视为双向街道
+- 加权图中,每条边都有一个与之相关的值（称为权重）。该值用于表示它们连接的节点之间的某种可量化关系
+  - 权重可以表示距离，时间，社交网络中两个用户之间共享的连接数
+  - 可以用于描述您正在使用的上下文中的节点之间的连接的任何内容
+4. 稀疏图与密集图
+   - 当图中的边数接近最大边数时，图是密集的
+   - 当图中的边数明显少于最大边数时，图是稀疏的
+5. 循环
+它们是在同一节点上开始和结束的有效路径
+```js
+// 具有邻接列表的有向图
+class Graph {
+  constructor() {
+    this.AdjList = new Map();
+  }
+  //添加顶点
+  addVertex(vertex) {
+    if (!this.AdjList.has(vertex)) {
+        this.AdjList.set(vertex, []);
+    } else {
+        throw 'Already Exist!!!';
+    }
+  }
+  //添加边
+   addEdge(vertex, node) {
+        // 向顶点添加边之前，必须验证该顶点是否存在。
+        if (this.AdjList.has(vertex)) {
+        // 确保添加的边尚不存在。
+            if (this.AdjList.has(node)){
+                let arr = this.AdjList.get(vertex);
+                // 如果都通过，那么可以将边添加到顶点。
+                if(!arr.includes(node)){
+                arr.push(node);
+                }
+            }else {
+                throw `Can't add non-existing vertex ->'${node}'`;
+            }
+            } else {
+            throw `You should add '${vertex}' first`;
+            }
+    }
+    print() {
+        for (let [key, value] of this.AdjList) {
+            console.log(key, value);
+        }
+    }
 }
+```
+* 广度优先算法，BFS。
+* 深度优先算法，DFS
+* BFS 的重点在于队列，而 DFS 的重点在于递归。这是它们的本质区别。
+### BFS
+步骤
++ BFS将起始节点作为参数。（例如'A'）
++ 初始化一个空对象：visited。
++ 初始化一个空数组：q，该数组将用作队列。
++ 将起始节点标记为已访问。（visited = {'A': true}）
++ 将起始节点放入队列中。（q = ['A']）
++ 循环直到队列为空 
+循环内部
+- 从中获取元素q并将其存储在变量中。（let current = q.pop()）
+- 打印 当前 current
+- 从图中获取current的边。（let arr = this.AdjList.get(current)）。
+- 如果未访问元素，则将每个元素标记为已访问并将其放入队列中。
+```js
+createVisitedObject(){
+  let arr = {};
+  for(let key of this.AdjList.keys()){
+    arr[key] = false;
+  }
+  return arr;
+}
+
+bfs(startingNode){
+  let visited = this.createVisitedObject();
+  let q = [];
+
+  visited[startingNode] = true;
+  q.push(startingNode);
+
+  while(q.length){
+    let current = q.pop()
+    console.log(current);
+
+    let arr = this.AdjList.get(current);
+
+    for(let elem of arr){
+      if(!visited[elem]){
+        visited[elem] = true;
+        q.unshift(elem)
+      }
+    }
+
+  }
+}
+```
+### DFS
+步骤
+- 接受起点作为参数`dfs(startingNode)` 。
+- 创建访问对象`let visited = this.createVisitedObject()`。
+- 调用辅助函数递归起始节点和访问对象`this.dfsHelper(startingNode, visited)`。
+- dfsHelper 将其标记为已访问并打印出来。
+```js
+createVisitedObject(){
+  let arr = {};
+  for(let key of this.AdjList.keys()){
+    arr[key] = false;
+  }
+  return arr;
+}
+
+ dfs(startingNode){
+    console.log('\nDFS')
+    let visited = this.createVisitedObject();
+    this.dfsHelper(startingNode, visited);
+  }
+
+  dfsHelper(startingNode, visited){
+    visited[startingNode] = true;
+    console.log(startingNode);
+
+    let arr = this.AdjList.get(startingNode);
+
+    for(let elem of arr){
+      if(!visited[elem]){
+        this.dfsHelper(elem, visited);
+      }
+    }
+  }
+
+  doesPathExist(firstNode, secondNode){
+    let path = [];
+    let visited = this.createVisitedObject();
+    let q = [];
+    visited[firstNode] = true;
+    q.push(firstNode);
+    while(q.length){
+      let node = q.pop();
+      path.push(node);
+      let elements = this.AdjList.get(node);
+      if(elements.includes(secondNode)){
+        console.log(path.join('->'))
+        return true;
+      }else{
+        for(let elem of elements){
+          if(!visited[elem]){
+            visited[elem] = true;
+            q.unshift(elem);
+          }
+        }
+      }
+    }
+    return false;
+  }
+}
+```
