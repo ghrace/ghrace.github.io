@@ -273,3 +273,19 @@ function test(s1){
 }
 test('aabccccaaa')
 ```
+12. 求和
+```js
+function sum(...theArgs) {
+  return theArgs.reduce((previous, current) => {
+    return previous + current;
+  });
+}
+function add() {
+    var sum =0,
+        len = arguments.length;
+    for(var i=0; i<len; i++){
+        sum += arguments[i];
+    }
+    return sum;
+}
+```
