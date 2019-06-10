@@ -67,10 +67,17 @@
 }
 ```
 7. **元素消失**
-    1. visibility:hidden 不改变布局,不触发绑定事件
+    1. visibility:hidden 不改变布局,不触发绑定事件,占空间
     2. opacity:0 不改变布局,触发事件
     3. display:none 改变布局,类似删除元素
     4. z-index=-1 层次
+    5. `<div hidden>`
+    6. position 定位 
+    7. margin负值
+    8. transform  `transform: scale(0);` `transform: translateX(-99999px);` `transform: rotateY(90deg);` 占空间
+    9. 设宽高 0,`overflow: hidden`;
+    10. clip-path `clip-path: polygon(0 0, 0 0, 0 0, 0 0);` 占空间
+    11. `<div aria-hidden="true">` 读屏软件不可读，占据空间，可见。
 8. **布局**
     1. 三栏(两边宽度固定，中间宽度自适应)
         * position定位 center放最后 margin流出左右宽度
