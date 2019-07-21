@@ -3,7 +3,7 @@
 class Me {
     constructor() {
     this.name='郭洪荣'
-    this.age=25
+    this.age=26
     this.contact = [{
         email:'ghrsevn@live.com',
         wechat:'18582579805',
