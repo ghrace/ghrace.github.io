@@ -120,15 +120,23 @@ IE 冒泡和默认
     ```
 2. **this**  
 几种情况:
-    1. 当函数作为对象的方法被调用时，this指向该对象。
-    2. 作为普通函数，this指向window。node环境 global
-    3. 构造器调用，this指向返回的这个对象。
-    4. 箭头函数  箭头函数的this绑定看的是this所在函数定义在哪个对象下，就绑定哪个对象。如果有嵌套的情况，则this绑定到最近的一层对象上
-    改变this指向:
-    1. 箭头函数
-    2. self=this
-    3. apply,call,bind
-    4. new 对象
+  1. 当函数作为对象的方法被调用时，this指向该对象。
+  2. 作为普通函数，this指向window。node环境 global
+  3. 构造器调用，this指向返回的这个对象。
+  4. 箭头函数  箭头函数的this绑定看的是this所在函数定义在哪个对象下，就绑定哪个对象。如果有嵌套的情况，则this绑定到最近的一层对象上
+改变this指向:
+  1. 箭头函数
+  2. self=this
+  3. apply,call,bind
+  4. new 对象
+总结如下:
+  - this 在函数调用中是一个全局对象
+  - this 在严格模式下的函数调用中为 undefined
+  - 在方法调用中，this是拥有这个方法的对象
+  - 在构造函数调用中 this 指向新创建的对象
+  - 在隐式调用.call()或.apply()中，this是第一个参数
+  - 在调用绑定函数时，this是.bind()的第一个参数
+  - this 定义箭头函数的封闭上下文,从定义它的外部函数中获取 this
 3. **跨越**
     1. jsonp
     2. document.domin 基础域名相同,子域名不同
