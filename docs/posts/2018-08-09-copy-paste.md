@@ -1,6 +1,6 @@
+## 复制、剪切、粘贴事件
 在segmentfault看了一个文章,讲js复制粘贴,或许将来会用到,学习一下  [原文](https://segmentfault.com/a/1190000015942599)
 
-## 复制、剪切、粘贴事件
 1. copy 复制
 2. cut 剪切
 3. paste 粘贴

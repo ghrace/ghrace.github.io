@@ -1,8 +1,6 @@
-
+## ts基础
 
 看到用的iview3.1版本要支持`typescript`,觉得现在UI都开始支持`ts`,是该了解一波
-
-### 基础
 
 #### 原始数据类型  
 包括:布尔值、数值、字符串、null、undefined 以及 ES6 Symbol。
