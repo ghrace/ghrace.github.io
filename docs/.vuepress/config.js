@@ -8,6 +8,9 @@ module.exports = {
     // markdown: {
     //   lineNumbers: true
     // },
+    plugins:[
+      "vuepress-plugin-cat"
+    ],
     themeConfig: {
         editLinks: true,
         editLinkText: '错别字纠正',
