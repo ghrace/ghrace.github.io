@@ -10,6 +10,6 @@
   "dependencies": {
     "node-sass": "^4.12.0",
     "sass-loader": "^7.2.0",
-    "vuepress-plugin-cat": "^1.0.2"
+    "vuepress-plugin-cat": "^1.0.3"
   }
 }
