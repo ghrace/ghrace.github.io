@@ -83,3 +83,130 @@ clientTop、clientLeft、clientWidth、clientHeight
     - 持久化连接：避免TCP的三次握手，HTTP1.1默认开启，HTTP1.0可以使用：`Connection: Keep-Alive`
     - 消除不必要的请求字节
     - 嵌入资源，如：Base64嵌入资源（针对小的静态图片资源）
+## webpack优化
+1. **压缩图片**  
+
+可以用 `image-webpack-loader` 来压缩图片
+```js
+{
+  test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+  use:[
+    {
+    loader: 'url-loader',
+    options: {
+      limit: 10000,
+      name: utils.assetsPath('img/[name].[hash:7].[ext]')
+      }
+    },
+    {
+      loader: 'image-webpack-loader',
+      options: {
+        bypassOnDebug: true,
+      }
+    }
+  ]
+}
+```
+2. **减少 ES6 转为 ES5 的冗余代码**  
+
+Babel 插件会在将 ES6 代码转换成 ES5 代码时会注入一些辅助函数,多个源代码文件都依赖这些辅助函数，那么这些辅助函数的代码将会出现很多次，造成代码冗余  
+
+`babel-plugin-transform-runtime` 插件就是将相关辅助函数进行替换成导入语句，从而减小 babel 编译出来的代码的文件大小  
+
+修改 .babelrc 配置文件
+```js
+"plugins": [
+    "transform-runtime"
+]
+```
+3. **提取公共代码**  
+
+将每个页面的第三方库和公共模块提取出来,抽离成单独的文件,用`CommonsChunkPlugin`插件
+```js
+// 所有在 package.json 里面依赖的包，都会被打包进 vendor.js 这个文件中。
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'vendor',
+  minChunks: function(module, count) {
+    return (
+      module.resource &&
+      /\.js$/.test(module.resource) &&
+      module.resource.indexOf(
+        path.join(__dirname, '../node_modules')
+      ) === 0
+    );
+  }
+}),
+// 抽取出代码模块的映射关系
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'manifest',
+  chunks: ['vendor']
+})
+```
+4. **模板预编译**  
+
+编译模板最简单的方式就是使用单文件组件——相关的构建设置会自动把预编译处理好，所以构建好的代码已经包含了编译出来的渲染函数而不是原始的模板字符串
+可以使用 `vue-template-loader`，它也可以在构建过程中把模板文件转换成为 JavaScript 渲染函数
+
+5. **提取css**  
+
+所有组件的 CSS 提取到同一个文件可以避免这个问题，也会让 CSS 更好地进行压缩和缓存  
+`webpack + vue-loader` ( vue-cli 的 webpack 模板已经预先配置好)
+
+6. **优化 SourceMap**  
+
+开发环境推荐： `cheap-module-eval-source-map`
+
+生产环境推荐： `cheap-module-source-map`
+
+## vue项目优化
+1. **长列表性能优化**  
+
+禁止 Vue 劫持我们的数据,可以通过 Object.freeze 方法来冻结一个对象，一旦被冻结的对象就再也不能被修改了
+```js
+export default {
+  data: () => ({
+    users: {}
+  }),
+  async created() {
+    const users = await axios.get("/api/users");
+    this.users = Object.freeze(users);
+  }
+};
+```
+2. v-if 适用于在运行时很少改变条件，不需要频繁切换条件的场景；v-show 则适用于需要非常频繁切换条件的场景
+
+3. computed watch
+ - 当我们需要进行数值计算，并且依赖于其它数据时，应该使用 computed，因为可以利用 computed 的缓存特性，避免每次获取值时，都要重新计算；
+
+ - 当我们需要在数据变化时执行异步或开销较大的操作时，应该使用 watch，使用 watch 选项允许我们执行异步操作 ( 访问一个 API )，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。
+
+4. v-for 遍历避免同时使用 v-if
+v-for 比 v-if 优先级高，如果每一次都需要遍历整个数组，将会影响速度，尤其是当之需要渲染很小一部分的时候，必要情况下应该替换成 computed 属性。
+
+5. 图片资源懒加载 `vue-lazyload`
+6. 路由懒加载
+```js 
+const Foo = () => import('./Foo.vue')
+const router = new VueRouter({
+  routes: [
+    { path: '/foo', component: Foo }
+  ]
+})
+```
+7. 第三方插件的按需引入
+插件   `babel-plugin-component`
+```js
+// .babelrc
+{
+  "presets": [["es2015", { "modules": false }]],
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
+}
+```
