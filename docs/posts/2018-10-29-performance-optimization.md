@@ -1,4 +1,4 @@
-## 性能优化总结
+## 性能优化
 
 浏览器打开网页的过程
 1. 浏览器对URL进行DNS解析
@@ -210,3 +210,48 @@ const router = new VueRouter({
   ]
 }
 ```
+## youtube优化
+1. 协议层面尽快升级到http/2+quic（http/3），会为我们带来15%性能提升，并且可以让挤地铁的同学有更好的视频播放体验
+
+2. 压缩格式br，可以更有效的压缩html、js、css
+
+Gzip 压缩算法简介:
+
+Gzip 基于 DEFLATE 算法，它是 LZ77 和霍夫曼编码的组合，最早用于 UNIX 系统的文件压缩。HTTP 协议上的 Gzip 编码是一种用来进 Web 应用程序性能的技术，Web 服务器和客户端（浏览器）必须共同支持 Gzip，当下主流的浏览器都是支持 Gzip 压缩，包括 IE6、IE7、IE8、IE9、FireFox、Google Chrome、Opera 等。
+
+Brotli 压缩算法简介:
+
+Google 在 2015 年 9 月推出了无损压缩算法 Brotli。Brotli 通过变种的 LZ77 算法、Huffman 编码以及二阶文本建模等方式进行数据压缩，与其他压缩算法相比，它有着更高的压缩效率。
+
+Brotli 压缩算法具有多个特点，最典型的是以下 3 个：
+
+- 针对常见的 Web 资源内容，Brotli 的性能相比 Gzip 提高了 17-25%；
+- 当 Brotli 压缩级别为 1 时，压缩率比 Gzip 压缩等级为 9（最高）时还要高；
+- 在处理不同 HTML 文档时，Brotli 依然能够提供非常高的压缩率。
+
+除了 IE 和 Opera Mini 之外，几乎所有的主流浏览器都已支持 Brotli 算法。
+```
+Nginx 配置
+
+#Brotli Compression
+brotli on;
+brotli_comp_level 6;
+brotli_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+```
+3. 对于多页面公用的css和js，你可以通过在http header中增加link perconnent，让文件内引用的其他域名获得加速，而不需要在html新增标签覆盖面更广
+
+4. 合理使用 `requestIdleCallback` & `cancelIdleCallback` 可以让你的代码执行减少拥堵
+
+5. 如果你需要把一个多页面站点改造成单页应用又不想付出高昂的代价，可以尝试考虑spf.js的方案（需要服务端配合,劫持全局A链接的点击事件，只请求下一个页面渲染所需的数据在当前页面完成渲染，避免了大量无意义的http建联和模块重新渲染的开销，加快了页面渲染的速度。
+
+6. 在首个请求体积可控的情况下内联必须的JS和CSS会让你获得更快的首屏时间（实验结果建议<200k）
+
+7. 采用svg实现icon，不仅体积小还可以实现动画，比base64和iconfont要更灵活。
+
+8. 尽可能的重用页面资源和已渲染的模块，避免任何一点不必要的浪费
+
+9. 视频格式 vp9和av1比国内常见的h.264有明显的优势，而且不像h.265要收取高额的费用
+
+10. `Web Animations api`,允许同步和定时更改网页的呈现, 即DOM元素的动画。它通过组合两个模型来实现：时序模型 和 动画模型
+
+11. `Web Components & Polymer`,允许您创建可重用的定制元素（它们的功能封装在您的代码之外）并且在您的web应用中使用它们
