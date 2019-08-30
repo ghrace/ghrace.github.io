@@ -145,7 +145,9 @@ new webpack.optimize.CommonsChunkPlugin({
 4. **模板预编译**  
 
 编译模板最简单的方式就是使用单文件组件——相关的构建设置会自动把预编译处理好，所以构建好的代码已经包含了编译出来的渲染函数而不是原始的模板字符串
-可以使用 `vue-template-loader`，它也可以在构建过程中把模板文件转换成为 JavaScript 渲染函数
+可以使用 `vue-template-loader`，它也可以在构建过程中把模板文件转换成为 JavaScript 渲染函数  
+
+DLLPlugin预编译,插件专门用于单独的webpack配置中，以创建dll的捆绑包。它创建一个manifest.json文件，DllReferencePlugin使用它来映射依赖项
 
 5. **提取css**  
 
@@ -157,7 +159,117 @@ new webpack.optimize.CommonsChunkPlugin({
 开发环境推荐： `cheap-module-eval-source-map`
 
 生产环境推荐： `cheap-module-source-map`
+7. **多线程压缩**
+```js
+// happypack
+//1. 安装依赖
+ npm install --save-dev thread-loader (之后方法省略该步骤)
+//2. module中引入
+  module: {
+          rules: [
+              {
+                  test: /\.js$/,
+                  include: path.resolve(__dirname, '../src'),
+                  //多线程编译 项目不大不建议使用
+                  use: [{
+                      loader: 'thread-loader',
+                      options: {
+                          workers: 3
+                      }
+                  },
+                 	'babel-loader?cacheDirectory=true']
 
+              }
+            ]
+  }
+```
+8. **多线程多实例压缩**
+```js
+//安装后添加到optimization中
+optimization: {
+    minimizer: [
+      new TerserPlugin({
+        //开启并行压缩，true为默认值，可设数值， 同样项目小不建议使用，可能反而延长时间
+        parallel: true,
+        //开启压缩缓存
+        cache: true
+      })
+    ],
+  },
+```
+9. **开启缓存**
+- 开启babel-loaer缓存（直接在babel-loader后添加?cacheDirectory=true方法1中)
+- 开启terser-webpack-plugin缓存
+- 使用`hard-source-webpack-plugin`提升模块转换阶段缓存
+```
+plugins:[
+		// ...
+    new HardSourceWebpackPlugin(),
+]
+```
+10. **css treeShaking**
+`purgecss-webpack-plugin` 进行treeshaking，删除未使用的css；
+```js
+const PATHS = {
+    src: path.join(__dirname, '../src')
+}
+
+plugins:[
+		new MiniCssExtractPlugin(),
+		//必须和mini-css-extract-plugin配合使用
+    new PurgecssPlugin({
+    	paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    }),
+  ]
+```
+11. **缩小构建目标**
+缩小构建目标，减少每次构建文件查找范围也能提高速度
+```js
+// 1. 排除或缩小目录
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+              	//只在解析src下文件
+              	include: path.resolve(__dirname, '../src'),
+              	//排除 node_module文件夹，通常不需要同时使用。
+								exclude: 'node_module',
+              }
+          ]
+    	}
+//2.resolve模块使用
+  resolve: {
+    //合理使用别名,减少搜索层级
+    alias: {
+      //import react可以直接找到
+      "react": path.resolve(__dirname, "../node_module/react/dist/react.min.js"),
+    },
+     modules:[path.resolve(__dirname,"../node_module")]
+      //后缀名，如import 'index'时会自动按extensions顺序查找，可选多个，但查找速度慢，指定为一下数组中类型时，其他类必须写明后缀，否则无法找到
+     extensions:[.js],
+     //packjson指定的入口文件
+     mainFeilds:['main'] 
+  }      
+```
+12. **其他**
+```js
+plugins:[
+  // 提示框
+  new WebpackBuildNotifyerPlugin({
+  	//提示项目名
+    title: 'project',
+    suppressSuccess: true
+  }),
+  //进度条
+  new ProgressBarPlugin(),
+  //仪表盘，看需要
+  //new DashboardPlugin()，
+  //错误提示，需要同stats使用
+  new FriendlyErrorsWebpackPlugin(),
+	// 体积分析，需要的时候加上，有多种分析插件
+  // new BundleAnalyzerPlugin(),
+]
+```
 ## vue项目优化
 1. **长列表性能优化**  
 
