@@ -230,6 +230,33 @@ let obj = {a: 1, b: {
 // 可以处理 undefined 和循环引用对象
 const clone = await structuralClone(obj);
 ```
+
+History API
+
+```js
+function structuralClone(obj) {
+  const oldState = history.state;
+  history.replaceState(obj, document.title);
+  const copy = history.state;
+  history.replaceState(oldState, document.title);
+  return copy;
+}
+
+const obj = /* ... */;
+const clone = structuralClone(obj);
+```
+
+Notification API
+
+```js
+function structuralClone(obj) {
+  return new Notification('', {data: obj, silent: true}).data;
+}
+
+const obj = /* ... */;
+const clone = structuralClone(obj);
+```
+
 递归实现
 ```js
     //定义检测数据类型的功能函数
