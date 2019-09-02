@@ -3,7 +3,7 @@ module.exports = {
     description: '郭洪荣的前端学习记录 不仅仅是前端',
     head: [["link", { rel: "icon", href: '/favicon.ico' }]], 
     evergreen:true,
-    ga:'UA-123065311-1',
+    ga:'UA-123065311-2',
     dest:'dist',
     // markdown: {
     //   lineNumbers: true
