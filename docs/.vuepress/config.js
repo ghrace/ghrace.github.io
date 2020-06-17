@@ -28,6 +28,7 @@ module.exports = {
           '../posts/2019-03-04-js-repeat.md',
           '../posts/2019-03-04-interviews.md',
           '../posts/2018-10-29-performance-optimization.md',
+          '../posts/2019-09-05-js-test.md',
           '../posts/2020-6-17-hand.md'
         ]
       },
