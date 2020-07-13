@@ -93,7 +93,8 @@ module.exports = {
           '../posts/2018-11-9-git.md',
           '../posts/2018-11-27-brower-cashe.md',
           '../posts/2019-5-9-data-constructor.md',
-          '../posts/2019-5-24-google-skill.md'
+          '../posts/2019-5-24-google-skill.md',
+          '../posts/2020-07-13-webpack.md'
         ]
       },
     ]
