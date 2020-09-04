@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>webpack 优化，开发效率、打包策略 | 个人网站</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="郭洪荣的前端学习记录 不仅仅是前端">
+    <link rel="preload" href="/assets/css/0.styles.34d67128.css" as="style"><link rel="preload" href="/assets/js/app.eb62eaee.js" as="script"><link rel="preload" href="/assets/js/2.72395969.js" as="script"><link rel="preload" href="/assets/js/47.bdc07d9e.js" as="script"><link rel="prefetch" href="/assets/js/10.27ba8154.js"><link rel="prefetch" href="/assets/js/11.075f988e.js"><link rel="prefetch" href="/assets/js/12.5e9bbd1e.js"><link rel="prefetch" href="/assets/js/13.8392e023.js"><link rel="prefetch" href="/assets/js/14.77a3cb57.js"><link rel="prefetch" href="/assets/js/15.c61949cc.js"><link rel="prefetch" href="/assets/js/16.ad26b847.js"><link rel="prefetch" href="/assets/js/17.78f374ee.js"><link rel="prefetch" href="/assets/js/18.795fe446.js"><link rel="prefetch" href="/assets/js/19.648dffb4.js"><link rel="prefetch" href="/assets/js/20.5ebc180e.js"><link rel="prefetch" href="/assets/js/21.c95fefeb.js"><link rel="prefetch" href="/assets/js/22.1d389f9e.js"><link rel="prefetch" href="/assets/js/23.5df88463.js"><link rel="prefetch" href="/assets/js/24.8d0499f1.js"><link rel="prefetch" href="/assets/js/25.513b9002.js"><link rel="prefetch" href="/assets/js/26.d1173fe1.js"><link rel="prefetch" href="/assets/js/27.a033c6c9.js"><link rel="prefetch" href="/assets/js/28.7cee830e.js"><link rel="prefetch" href="/assets/js/29.a51d66b1.js"><link rel="prefetch" href="/assets/js/3.e4641c0a.js"><link rel="prefetch" href="/assets/js/30.2b567aeb.js"><link rel="prefetch" href="/assets/js/31.2f957abe.js"><link rel="prefetch" href="/assets/js/32.430b2986.js"><link rel="prefetch" href="/assets/js/33.a8d5dea5.js"><link rel="prefetch" href="/assets/js/34.02be1619.js"><link rel="prefetch" href="/assets/js/35.6567ea5b.js"><link rel="prefetch" href="/assets/js/36.48df1a6d.js"><link rel="prefetch" href="/assets/js/37.9f60f67d.js"><link rel="prefetch" href="/assets/js/38.58fa9460.js"><link rel="prefetch" href="/assets/js/39.f85bd993.js"><link rel="prefetch" href="/assets/js/4.6228369c.js"><link rel="prefetch" href="/assets/js/40.ca515473.js"><link rel="prefetch" href="/assets/js/41.728939ec.js"><link rel="prefetch" href="/assets/js/42.984d6956.js"><link rel="prefetch" href="/assets/js/43.61bec008.js"><link rel="prefetch" href="/assets/js/44.702f1516.js"><link rel="prefetch" href="/assets/js/45.04185b18.js"><link rel="prefetch" href="/assets/js/46.694df997.js"><link rel="prefetch" href="/assets/js/48.8bb88695.js"><link rel="prefetch" href="/assets/js/49.cf1a9f53.js"><link rel="prefetch" href="/assets/js/5.811ea9a9.js"><link rel="prefetch" href="/assets/js/6.2cb6115f.js"><link rel="prefetch" href="/assets/js/7.f5394326.js"><link rel="prefetch" href="/assets/js/8.9604f845.js"><link rel="prefetch" href="/assets/js/9.15a62766.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.34d67128.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">个人网站</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/about.html" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="https://github.com/ghrace" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/about.html" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="https://github.com/ghrace" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>JS</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>ES6</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>TypeScript</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Python</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>CSS</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Others</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/posts/2018-08-21-resume-template.html" class="sidebar-link">markdown简历模板</a></li><li><a href="/posts/2018-11-9-git.html" class="sidebar-link">git使用</a></li><li><a href="/posts/2018-11-27-brower-cashe.html" class="sidebar-link">浏览器缓存机制</a></li><li><a href="/posts/2019-5-9-data-constructor.html" class="sidebar-link">数据结构</a></li><li><a href="/posts/2019-5-24-google-skill.html" class="sidebar-link">谷歌搜索技巧</a></li><li><a href="/posts/2020-07-13-webpack.html" aria-current="page" class="active sidebar-link">webpack 优化，开发效率、打包策略</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/posts/2020-07-13-webpack.html#webpack-优化，开发效率、打包策略" class="sidebar-link">webpack 优化，开发效率、打包策略</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="webpack-优化，开发效率、打包策略"><a href="#webpack-优化，开发效率、打包策略" class="header-anchor">#</a> webpack 优化，开发效率、打包策略</h2> <ol><li>优化 Webpack 的构建速度</li></ol> <ul><li>使用高版本的 Webpack （使用webpack4）</li> <li>多线程/多实例构建：HappyPack(不维护了)、thread-loader</li> <li>缩小打包作用域：</li> <li>exclude/include (确定 loader 规则范围)</li> <li>resolve.modules 指明第三方模块的绝对路径 (减少不必要的查找)</li> <li>resolve.extensions 尽可能减少后缀尝试的可能性</li> <li>noParse 对完全不需要解析的库进行忽略 (不去解析但仍会打包到 bundle 中，注意被忽略掉的文件里不应该包含 import、 require、define 等模块化语句)</li> <li>IgnorePlugin (完全排除模块)</li> <li>合理使用alias</li> <li>充分利用缓存提升二次构建速度：
+<ul><li>babel-loader 开启缓存</li> <li>terser-webpack-plugin 开启缓存</li> <li>使用 cache-loader 或者 hard-source-webpack-plugin</li> <li>注意：thread-loader 和 cache-loader 兩個要一起使用的話，請先放 cache-loader 接著是 thread-loader 最後才是 heavy-loader</li></ul></li> <li>DLL：
+使用 DllPlugin 进行分包，使用 DllReferencePlugin(索引链接) 对 manifest.json 引用，让一些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间。</li></ul> <ol start="2"><li>使用webpack4-优化原因</li></ol> <p>(a)V8带来的优化（for of替代forEach、Map和Set替代Object、includes替代indexOf）
+(b)默认使用更快的md4 hash算法
+(c)webpacks AST可以直接从loader传递给AST，减少解析时间
+(d)使用字符串方法替代正则表达式
+①noParse</p> <ul><li>不去解析某个库内部的依赖关系</li> <li>比如jquery 这个库是独立的， 则不去解析这个库内部依赖的其他的东西</li> <li>在独立库的时候可以使用</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  module<span class="token operator">:</span> <span class="token punctuation">{</span>
+    noParse<span class="token operator">:</span> <span class="token regex">/jquery/</span><span class="token punctuation">,</span>
+    rules<span class="token operator">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>②IgnorePlugin</p> <ul><li>不去解析依赖库内部引用的某些内容</li> <li>从moment中引用 ./locol 则忽略掉</li> <li>如果要用local的话 则必须在项目中必须手动引入 import 'moment/locale/zh-cn'</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+<span class="token keyword">new</span> <span class="token class-name">Webpack<span class="token punctuation">.</span>IgnorePlugin</span><span class="token punctuation">(</span><span class="token operator">/</span><span class="token punctuation">.</span><span class="token operator">/</span>local<span class="token operator">/</span><span class="token punctuation">,</span> <span class="token regex">/moment/</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>③dillPlugin</p> <ul><li><p>不会多次打包， 优化打包时间</p></li> <li><p>先把依赖的不变的库打包</p></li> <li><p>生成 manifest.json文件</p></li> <li><p>然后在webpack.config中引入</p></li> <li><p>webpack.DllPlugin Webpack.DllReferencePlugin
+④happypack -&gt; thread-loader</p></li> <li><p>大项目的时候开启多线程打包</p></li> <li><p>影响前端发布速度的有两个方面，一个是构建，一个就是压缩，把这两个东西优化起来，可以减少很多发布的时间。
+⑤thread-loader</p></li> <li><p>thread-loader 会将您的 loader 放置在一个 worker 池里面运行，以达到多线程构建。</p></li> <li><p>把这个 loader 放置在其他 loader 之前（如下图 example 的位置）， 放置在这个 loader 之后的 loader 就会在一个单独的 worker 池(worker pool)中运行。</p></li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  module<span class="token operator">:</span> <span class="token punctuation">{</span>
+    rules<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+        include<span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">&quot;src&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        use<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;thread-loader&quot;</span><span class="token punctuation">,</span>
+          <span class="token comment">// 你的高开销的loader放置在此 (e.g babel-loader)</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>每个 worker 都是一个单独的有 600ms 限制的 node.js 进程。同时跨进程的数据交换也会被限制。请在高开销的loader中使用，否则效果不佳</p> <p>⑥压缩加速——开启多线程压缩</p> <p>不推荐使用 webpack-paralle-uglify-plugin，项目基本处于没人维护的阶段，issue 没人处理，pr没人合并。
+Webpack 4.0以前：uglifyjs-webpack-plugin，parallel参数</p> <div class="language-js extra-class"><pre class="language-js"><code>module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  optimization<span class="token operator">:</span> <span class="token punctuation">{</span>
+    minimizer<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token keyword">new</span> <span class="token class-name">UglifyJsPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        parallel<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// 推荐使用 terser-webpack-plugin</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  optimization<span class="token operator">:</span> <span class="token punctuation">{</span>
+    minimizer<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">TerserPlugin</span><span class="token punctuation">(</span>
+      parallel<span class="token operator">:</span> <span class="token boolean">true</span>   <span class="token comment">// 多线程</span>
+    <span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><ol start="2"><li>优化 Webpack 的打包体积</li></ol> <ul><li>压缩代码
+<ul><li>webpack-paralle-uglify-plugin</li> <li>uglifyjs-webpack-plugin 开启 parallel 参数 (不支持ES6)</li> <li>terser-webpack-plugin 开启 parallel 参数</li> <li>多进程并行压缩</li> <li>通过 mini-css-extract-plugin 提取 Chunk 中的 CSS 代码到单独文件，通过optimize-css-assets-webpack-plugin插件 开启 cssnano 压缩 CSS。</li></ul></li> <li>提取页面公共资源：
+<ul><li>使用 html-webpack-externals-plugin，将基础包通过 CDN 引入，不打入 bundle 中</li> <li>使用 SplitChunksPlugin 进行(公共脚本、基础包、页面公共文件)分离(Webpack4内置) ，替代了 CommonsChunkPlugin 插件</li> <li>基础包分离：将一些基础库放到cdn，比如vue，webpack 配置 external是的vue不打入bundle</li></ul></li> <li>Tree shaking
+<ul><li>purgecss-webpack-plugin 和 mini-css-extract-plugin配合使用(建议)</li> <li>打包过程中检测工程中没有引用过的模块并进行标记，在资源压缩时将它们从最终的bundle中去掉(只能对ES6 Modlue生效) 开发中尽可能使用ES6 Module的模块，提高tree shaking效率</li> <li>禁用 babel-loader 的模块依赖解析，否则 Webpack 接收到的就都是转换过的 CommonJS 形式的模块，无法进行 tree-shaking</li> <li>使用 PurifyCSS(不在维护) 或者 uncss 去除无用 CSS 代码</li></ul></li> <li>Scope hoisting
+<ul><li>构建后的代码会存在大量闭包，造成体积增大，运行代码时创建的函数作用域变多，内存开销变大。Scope hoisting 将所有模块的代码按照引用顺序放在一个函数作用域里，然后适当的重命名一些变量以防止变量名冲突</li> <li>必须是ES6的语法，因为有很多第三方库仍采用 CommonJS 语法，为了充分发挥 Scope hoisting 的作用，需要配置 mainFields 对第三方模块优先采用 jsnext:main 中指向的ES6模块化语法</li></ul></li> <li>图片压缩
+<ul><li>使用基于 Node 库的 imagemin (很多定制选项、可以处理多种图片格式)</li> <li>配置 image-webpack-loader</li></ul></li> <li>动态Polyfill
+<ul><li>建议采用 polyfill-service 只给用户返回需要的polyfill，社区维护。(部分国内奇葩浏览器UA可能无法识别，但可以降级返回所需全部polyfill)</li> <li>@babel-preset-env 中通过useBuiltIns: 'usage参数来动态加载polyfill。</li></ul></li> <li>speed-measure-webpack-plugin
+<ul><li>简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。</li></ul></li></ul> <p>开发阶段</p> <p>1）开启多核压缩</p> <p>插件：** terser-webpack-plugin **</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> TerserPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'terser-webpack-plugin'</span><span class="token punctuation">)</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    optimization<span class="token operator">:</span> <span class="token punctuation">{</span>
+        minimizer<span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token keyword">new</span> <span class="token class-name">TerserPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                parallel<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                terserOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+                    ecma<span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation">,</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>2）监控面板</p> <p>插件：speed-measure-webpack-plugin
+在打包的时候显示出每一个loader,plugin所用的时间，来精准优化</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js文件</span>
+<span class="token keyword">const</span> SpeedMeasurePlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'speed-measure-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> smp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SpeedMeasurePlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//............</span>
+<span class="token comment">// 用smp.warp()包裹一下合并的config</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> smp<span class="token punctuation">.</span><span class="token function">wrap</span><span class="token punctuation">(</span><span class="token function">merge</span><span class="token punctuation">(</span>_mergeConfig<span class="token punctuation">,</span> webpackConfig<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>3）开启一个通知面板</p> <p>插件：webpack-build-notifier</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js文件</span>
+<span class="token keyword">const</span> WebpackBuildNotifierPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-build-notifier'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> webpackConfig<span class="token operator">=</span> <span class="token punctuation">{</span>
+    plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">WebpackBuildNotifierPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            title<span class="token operator">:</span> <span class="token string">'我的webpack'</span><span class="token punctuation">,</span>
+            <span class="token comment">// logo: path.resolve('./img/favicon.png'),</span>
+            suppressSuccess<span class="token operator">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>4）开启打包进度</p> <p>插件：progress-bar-webpack-plugin</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js文件</span>
+<span class="token keyword">const</span> ProgressBarPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'progress-bar-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> webpackConfig<span class="token operator">=</span> <span class="token punctuation">{</span>
+    plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">ProgressBarPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>5）开发面板更清晰</p> <p>插件：webpack-dashboard</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js文件</span>
+<span class="token keyword">const</span> DashboardPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-dashboard/plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> webpackConfig<span class="token operator">=</span> <span class="token punctuation">{</span>
+    plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">DashboardPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// package.json文件</span>
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;webpack-dashboard webpack --mode development&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>6）开启窗口的标题</p> <p>node-bash-title
+这个包mac的item用有效果，windows暂时没看到效果</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// webpack.config.js文件</span>
+<span class="token keyword">const</span> setTitle <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'node-bash-title'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">setTitle</span><span class="token punctuation">(</span><span class="token string">'server'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>7）friendly-errors-webpack-plugin</p> <p>插件：friendly-errors-webpack-plugin</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">new</span> <span class="token class-name">FriendlyErrorsWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    compilationSuccessInfo<span class="token operator">:</span> <span class="token punctuation">{</span>
+        messages<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'You application is running here http://localhost:3000'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        notes<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'Some additionnal notes to be displayed unpon successful compilation'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">onErrors</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">severity<span class="token punctuation">,</span> errors</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// You can listen to errors transformed and prioritized by the plugin</span>
+        <span class="token comment">// severity can be 'error' or 'warning'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">// should the console be cleared between each compilation?</span>
+    <span class="token comment">// default is true</span>
+    clearConsole<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    
+    <span class="token comment">// add formatters and transformers (see below)</span>
+    additionalFormatters<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    additionalTransformers<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/posts/2019-5-24-google-skill.html" class="prev">
+        谷歌搜索技巧
+      </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.eb62eaee.js" defer></script><script src="/assets/js/2.72395969.js" defer></script><script src="/assets/js/47.bdc07d9e.js" defer></script>
+  </body>
+</html>
