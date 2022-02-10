@@ -10,7 +10,7 @@
   "dependencies": {
     "@vssue/api-github-v3": "^1.1.2",
     "@vssue/vuepress-plugin-vssue": "^1.2.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.2.0",
     "vuepress-plugin-cat": "^1.0.3"
   }
